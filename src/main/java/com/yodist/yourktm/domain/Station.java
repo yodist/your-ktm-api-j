@@ -12,24 +12,24 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper = true)
 @Document(collection = "station")
 public class Station extends BaseEntity {
 
 	@Id
 	@Field("_id")
 	private ObjectId id;
-	
+
 	@Field("name")
 	private String name;
-	
+
 	@Field("train_code")
 	private String trainCode;
-	
+
 	public Station() {
 		super();
-	}	
-	
+	}
+
 	public String getId() {
 		return id.toHexString();
 	}

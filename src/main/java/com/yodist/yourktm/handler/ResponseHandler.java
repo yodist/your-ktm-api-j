@@ -7,10 +7,10 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.Data;
 
 @Data
-public class ResponseHandler<T> {
+public class ResponseHandler {
 
 	@JsonProperty("data")
-	private T t;
+	private Object data;
 
 	@JsonProperty("status")
 	private String status;
@@ -22,20 +22,21 @@ public class ResponseHandler<T> {
 	@JsonProperty("errorMessage")
 	private String errorMessage;
 
+	public ResponseHandler() {}
 	
-	
-	public ResponseHandler(T t, String status, String message) {
+	public ResponseHandler(Object data, String status, String message) {
 		super();
-		this.t = t;
+		this.data = data;
 		this.status = status;
 		this.message = message;
 	}
-
-	public ResponseHandler(T t) {
-		super();
-		this.t = t;
-		this.status = "200";
-		this.message = "success";
-	}
 	
+	public ResponseHandler(Object data, String status, String message, String errorMessage) {
+		super();
+		this.data = data;
+		this.status = status;
+		this.message = message;
+		this.errorMessage = errorMessage;
+	}
+
 }
