@@ -28,8 +28,7 @@ public class TrainController extends BaseController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ResponseEntity<ResponseHandler> getAllTrains() {
-		List<Train> result = repository.findAll();
-		return ok(result);
+		return ok(repository.findAll());
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)

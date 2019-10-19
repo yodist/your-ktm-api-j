@@ -43,31 +43,31 @@ public class ScheduleController extends BaseController {
 	private ScheduleRepository repository;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public List<Schedule> getAllSchedules() {
-		return repository.findAll();
+	public ResponseEntity<ResponseHandler> getAllSchedules() {
+		return ok(repository.findAll());
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public Schedule getScheduleById(@PathVariable("id") ObjectId id) {
-		return repository.findById(id);
+	public ResponseEntity<ResponseHandler> getScheduleById(@PathVariable("id") ObjectId id) {
+		return ok(repository.findById(id));
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public void modifyScheduleById(@PathVariable("id") ObjectId id, @Valid @RequestBody Schedule schedule) {
+	public ResponseEntity<ResponseHandler> modifyScheduleById(@PathVariable("id") ObjectId id, @Valid @RequestBody Schedule schedule) {
 		schedule.setId(id);
-		repository.save(schedule);
+		return ok(repository.save(schedule));
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public Schedule createSchedule(@Valid @RequestBody Schedule schedule) {
+	public ResponseEntity<ResponseHandler> createSchedule(@Valid @RequestBody Schedule schedule) {
 		schedule.setId(ObjectId.get());
-		repository.save(schedule);
-		return schedule;
+		return ok(repository.save(schedule));
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public void deleteSchedule(@PathVariable ObjectId id) {
+	public ResponseEntity<ResponseHandler> deleteSchedule(@PathVariable ObjectId id) {
 		repository.delete(repository.findById(id));
+		return ok("Delete data success");
 	}
 	
 	// NOT READY YET
