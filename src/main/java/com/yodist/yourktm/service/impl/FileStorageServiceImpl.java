@@ -7,6 +7,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -25,10 +27,9 @@ public class FileStorageServiceImpl implements FileStorageService {
 	private final Path fileStorageLocation;
 	
 	@Autowired
-    public FileStorageServiceImpl(FileStorageProperties fileStorageProperties) {
-        this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
+    public FileStorageServiceImpl(FileStorageProperties fileStorageProperties, ServletContext context) {
+        this.fileStorageLocation = Paths.get(context.getRealPath(fileStorageProperties.getUploadDir()))
                 .toAbsolutePath().normalize();
-
         try {
             Files.createDirectories(this.fileStorageLocation);
         } catch (Exception ex) {
