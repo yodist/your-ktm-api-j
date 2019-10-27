@@ -45,7 +45,7 @@ public class TrainServiceImpl implements TrainService {
 		populateTrain(train, update);
 		query.addCriteria(Criteria.where(Train.TRAIN_CODE).is(train.getTrainCode()));
 		UpdateResult result = mongoTemplate.upsert(query, update, Train.class);
-		if (train.getId() == null) {
+		if (train.getIdAsString() == null) {
 			ObjectId objectId = (ObjectId) BsonUtils.toJavaType(result.getUpsertedId());
 			train.setId(objectId);
 		}
@@ -77,7 +77,7 @@ public class TrainServiceImpl implements TrainService {
 		String currentUser = CommonUtil.getUsername();
 		Date curDate = CommonUtil.getDateForSave();
 		update.set(Train.NAME, train.getName());
-		if (train.getId() == null) {
+		if (train.getIdAsString() == null) {
 			update.set(Train.CREATED_BY, currentUser);
 			update.set(Train.CREATED_DATE, curDate);
 		}

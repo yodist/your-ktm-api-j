@@ -35,8 +35,8 @@ public class Route extends BaseEntity {
 		super();
 	}
 
-	public String getId() {
-		return id.toHexString();
+	public String getIdAsString() {
+		return id != null ? id.toHexString() : null;
 	}
 	
 }

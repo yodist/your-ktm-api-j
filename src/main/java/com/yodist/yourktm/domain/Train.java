@@ -6,6 +6,8 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.yodist.yourktm.base.BaseEntity;
 
 import lombok.Data;
@@ -23,6 +25,7 @@ public class Train extends BaseEntity {
 	
 	@Id
 	@Field(_ID)
+	@JsonIgnore
 	private ObjectId id;
 	
 	@Field(NAME)
@@ -35,7 +38,8 @@ public class Train extends BaseEntity {
 		super();
 	}
 
-	public String getId() {
+	@JsonProperty(_ID)
+	public String getIdAsString() {
 		return id != null ? id.toHexString() : null;
 	}
 

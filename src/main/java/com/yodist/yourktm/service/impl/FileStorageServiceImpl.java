@@ -17,14 +17,15 @@ import org.springframework.web.multipart.MultipartFile;
 import com.yodist.yourktm.config.FileStorageProperties;
 import com.yodist.yourktm.handler.FileNotFoundException;
 import com.yodist.yourktm.handler.FileStorageException;
+import com.yodist.yourktm.service.FileStorageService;
 
 @Service
-public class FileStorageService {
+public class FileStorageServiceImpl implements FileStorageService {
 	
 	private final Path fileStorageLocation;
 	
 	@Autowired
-    public FileStorageService(FileStorageProperties fileStorageProperties) {
+    public FileStorageServiceImpl(FileStorageProperties fileStorageProperties) {
         this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
                 .toAbsolutePath().normalize();
 

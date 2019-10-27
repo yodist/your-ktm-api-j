@@ -1,7 +1,5 @@
 package com.yodist.yourktm.domain;
 
-import java.util.Date;
-
 import javax.persistence.Id;
 
 import org.bson.types.ObjectId;
@@ -50,7 +48,7 @@ public class Schedule extends BaseEntity {
 		super();
 	}
 
-	public String getId() {
+	public String getIdAsString() {
 		return id != null ? id.toHexString() : null;
 	}
 	

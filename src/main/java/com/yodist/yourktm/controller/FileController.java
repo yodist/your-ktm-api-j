@@ -22,13 +22,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.yodist.yourktm.base.BaseController;
 import com.yodist.yourktm.handler.UploadFileResponse;
-import com.yodist.yourktm.service.impl.FileStorageService;
+import com.yodist.yourktm.service.impl.FileStorageServiceImpl;
 
 @RestController
 public class FileController extends BaseController {
 
     @Autowired
-    private FileStorageService fileStorageService;
+    private FileStorageServiceImpl fileStorageService;
     
     @PostMapping("/uploadFile")
     public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {

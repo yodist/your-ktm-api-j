@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.Reader;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,7 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,7 +32,7 @@ import com.yodist.yourktm.service.RouteService;
 import com.yodist.yourktm.service.ScheduleService;
 import com.yodist.yourktm.service.StationService;
 import com.yodist.yourktm.service.TrainService;
-import com.yodist.yourktm.service.impl.FileStorageService;
+import com.yodist.yourktm.service.impl.FileStorageServiceImpl;
 import com.yodist.yourktm.util.CsvUtil;
 import com.yodist.yourktm.util.CustomDateUtil;
 
@@ -43,7 +41,7 @@ import com.yodist.yourktm.util.CustomDateUtil;
 public class ScheduleController extends BaseController {
 
 	@Autowired
-	FileStorageService fileStorageService;
+	FileStorageServiceImpl fileStorageService;
 
 	@Autowired
 	ScheduleService scheduleService;

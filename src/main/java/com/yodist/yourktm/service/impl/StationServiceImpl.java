@@ -46,7 +46,7 @@ public class StationServiceImpl implements StationService {
 		populateStation(station, update);
 		query.addCriteria(Criteria.where(Station.STATION_CODE).is(station.getStationCode()));
 		UpdateResult result = mongoTemplate.upsert(query, update, Station.class);
-		if (station.getId() == null) {
+		if (station.getIdAsString() == null) {
 			ObjectId objectId = (ObjectId) BsonUtils.toJavaType(result.getUpsertedId());
 			station.setId(objectId);
 		}
@@ -72,7 +72,7 @@ public class StationServiceImpl implements StationService {
 		String currentUser = CommonUtil.getUsername();
 		Date curDate = CommonUtil.getDateForSave();
 		update.set(Station.NAME, station.getName());
-		if (station.getId() == null) {
+		if (station.getIdAsString() == null) {
 			update.set(Station.CREATED_BY, currentUser);
 			update.set(Station.CREATED_DATE, curDate);
 		}

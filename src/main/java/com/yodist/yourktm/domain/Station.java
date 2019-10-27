@@ -35,7 +35,7 @@ public class Station extends BaseEntity {
 		super();
 	}
 
-	public String getId() {
+	public String getIdAsString() {
 		return id != null ? id.toHexString() : null;
 	}
 

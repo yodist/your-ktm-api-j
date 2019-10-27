@@ -51,7 +51,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 				.and(Route.ROUTE).is(schedule.getRoute());
 		query.addCriteria(criteria);
 		UpdateResult result = mongoTemplate.upsert(query, update, Schedule.class);
-		if (schedule.getId() == null) {
+		if (schedule.getIdAsString() == null) {
 			ObjectId objectId = (ObjectId) BsonUtils.toJavaType(result.getUpsertedId());
 			schedule.setId(objectId);
 		}
@@ -89,7 +89,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 		update.set(Schedule.TIME, schedule.getTime());
 		update.set(Schedule.TIME_STRING, schedule.getTimeString());
 		update.set(Schedule.SEQ, schedule.getSequence());
-		if (schedule.getId() == null) {
+		if (schedule.getIdAsString() == null) {
 			update.set(Schedule.CREATED_BY, currentUser);
 			update.set(Schedule.CREATED_DATE, curDate);
 		}
