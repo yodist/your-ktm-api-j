@@ -18,26 +18,32 @@ import lombok.EqualsAndHashCode;
 @Document(collection = "schedule")
 public class Schedule extends BaseEntity {
 
+	public static final String SCHEDULE = "schedule";
+	
+	public static final String TIME = "time";
+	public static final String TIME_STRING = "time_string";
+	public static final String SEQ = "sequence";
+	
 	@Id
-	@Field("_id")
+	@Field(_ID)
 	private ObjectId id;
 
-	@Field("time")
-	private Date time;
+	@Field(TIME)
+	private Integer time;
 	
-	@Field("time_string")
+	@Field(TIME_STRING)
 	private String timeString;
 
-	@Field("train")
+	@Field(Train.TRAIN)
 	private Train train;
 	
-	@Field("route")
+	@Field(Route.ROUTE)
 	private Route route;
 	
-	@Field("station")
+	@Field(Station.STATION)
 	private Station station;
 	
-	@Field("sequence")
+	@Field(SEQ)
 	private Integer sequence;
 	
 	public Schedule() {
@@ -45,7 +51,7 @@ public class Schedule extends BaseEntity {
 	}
 
 	public String getId() {
-		return id.toHexString();
+		return id != null ? id.toHexString() : null;
 	}
 	
 }

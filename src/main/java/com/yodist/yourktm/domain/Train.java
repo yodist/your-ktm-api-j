@@ -16,14 +16,19 @@ import lombok.EqualsAndHashCode;
 @Document(collection = "train")
 public class Train extends BaseEntity {
 
+	public static final String TRAIN = "train";
+	
+	public static final String NAME = "name";
+	public static final String TRAIN_CODE = "train_code";
+	
 	@Id
-	@Field("_id")
+	@Field(_ID)
 	private ObjectId id;
 	
-	@Field("name")
+	@Field(NAME)
 	private String name;
 	
-	@Field("train_code")
+	@Field(TRAIN_CODE)
 	private String trainCode;
 	
 	public Train() {
@@ -31,7 +36,7 @@ public class Train extends BaseEntity {
 	}
 
 	public String getId() {
-		return id.toHexString();
+		return id != null ? id.toHexString() : null;
 	}
 
 }

@@ -16,22 +16,27 @@ import lombok.EqualsAndHashCode;
 @Document(collection = "station")
 public class Station extends BaseEntity {
 
+	public static final String STATION = "station";
+	
+	public static final String NAME = "name";
+	public static final String STATION_CODE = "station_code";
+	
 	@Id
-	@Field("_id")
+	@Field(_ID)
 	private ObjectId id;
 
-	@Field("name")
+	@Field(NAME)
 	private String name;
 
-	@Field("train_code")
-	private String trainCode;
+	@Field(STATION_CODE)
+	private String stationCode;
 
 	public Station() {
 		super();
 	}
 
 	public String getId() {
-		return id.toHexString();
+		return id != null ? id.toHexString() : null;
 	}
 
 }

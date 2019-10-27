@@ -16,14 +16,19 @@ import lombok.EqualsAndHashCode;
 @Document(collection = "route")
 public class Route extends BaseEntity {
 	
+	public static final String ROUTE = "route";
+	
+	public static final String NAME = "name";
+	public static final String ROUTE_CODE = "route_code";
+	
 	@Id
-	@Field("_id")
+	@Field(_ID)
 	private ObjectId id;
 
-	@Field("name")
+	@Field(NAME)
 	private String name;
 
-	@Field("route_code")
+	@Field(ROUTE_CODE)
 	private String routeCode;
 
 	public Route() {

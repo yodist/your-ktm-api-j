@@ -12,16 +12,22 @@ import lombok.Data;
 @MappedSuperclass
 public abstract class BaseEntity {
 	
-	@Field("created_by")
+	public static final String _ID = "_id";
+	public static final String CREATED_BY = "created_by";
+	public static final String UPDATED_BY = "updated_by";
+	public static final String CREATED_DATE = "created_date";
+	public static final String UPDATED_DATE = "updated_date";
+	
+	@Field(CREATED_BY)
 	protected String createdBy;
 	
-	@Field("updated_by")
+	@Field(UPDATED_BY)
 	protected String updatedBy;
 	
-	@Field("created_date")
+	@Field(CREATED_DATE)
 	protected Date createdDate;
 	
-	@Field("updated_date")
-	protected Date udpatedDate;
+	@Field(UPDATED_DATE)
+	protected Date updatedDate;
 	
 }
