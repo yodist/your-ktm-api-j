@@ -30,16 +30,12 @@ import com.yodist.yourktm.service.RouteService;
 import com.yodist.yourktm.service.ScheduleService;
 import com.yodist.yourktm.service.StationService;
 import com.yodist.yourktm.service.TrainService;
-import com.yodist.yourktm.service.impl.FileStorageServiceImpl;
 import com.yodist.yourktm.util.CsvUtil;
 import com.yodist.yourktm.util.CustomDateUtil;
 
 @RestController
 @RequestMapping("/schedule")
 public class ScheduleController extends BaseController {
-
-	@Autowired
-	FileStorageServiceImpl fileStorageService;
 
 	@Autowired
 	ScheduleService scheduleService;
