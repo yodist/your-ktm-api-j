@@ -1,7 +1,6 @@
 package com.yodist.yourktm.controller;
 
-import java.io.File;
-import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +9,6 @@ import java.util.Objects;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.pdfbox.pdmodel.PDDocument;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -84,32 +82,12 @@ public class ScheduleController extends BaseController {
 		return ok("Delete data success");
 	}
 
-	// NOT READY YET
-	@RequestMapping(value = "/populateFromPdf", method = RequestMethod.POST)
-	public ResponseEntity<ResponseHandler> uploadFile(@RequestParam("file") MultipartFile multipartFile) {
-		String fileName = fileStorageService.storeFile(multipartFile);
-
-		File file = new File("/pdf-file/" + fileName);
-
-		try {
-			PDDocument doc = PDDocument.load(file);
-			logger.debug("FILE LOADED SUCCESSFULLY " + doc.getNumberOfPages());
-			doc.close();
-		} catch (Exception ex) {
-			return somethingGoesWrong("Upload failed.", ex.getMessage());
-		}
-
-		return ok("Not ready yet.", "Data updated successfully");
-	}
-
 	@RequestMapping(value = "/populateFromCsv", method = RequestMethod.POST)
-	public ResponseEntity<ResponseHandler> uploadFileCsv(@RequestParam("file") MultipartFile multipartFile,
+	public ResponseEntity<ResponseHandler> uploadFileCsv(@RequestParam("file") MultipartFile file,
 			@RequestParam(name = "routeCode", required = true) String routeCode) {
-		String fileName = fileStorageService.storeFile(multipartFile);
-		File file = new File("/pdf-file/" + fileName);
 		
 		try {
-			Reader reader = new FileReader(file);
+			Reader reader = new InputStreamReader(file.getInputStream());
 			Objects.requireNonNull(reader, "reader cannot be null");
 			
 			List<String[]> rowList = new ArrayList<>();
