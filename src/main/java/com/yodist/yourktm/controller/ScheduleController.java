@@ -84,7 +84,7 @@ public class ScheduleController extends BaseController {
 	public ResponseEntity<ResponseHandler> getScheduleByCriteria(
 			@RequestParam(value = "time", required = false) Long currentTime,
 			@RequestParam(value = "route", required = false) String routeCode,
-			@RequestParam(value = "station", required = false) String stationCode) {
+			@RequestParam(value = "station") String stationCode) {
 		List<Schedule> schedules = scheduleService.findScheduleByCriteria(currentTime, routeCode, stationCode);
 		return ok(schedules);
 	}
