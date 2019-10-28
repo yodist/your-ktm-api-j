@@ -41,13 +41,13 @@ public class ScheduleController extends BaseController {
 
 	@Autowired
 	ScheduleService scheduleService;
-	
+
 	@Autowired
 	TrainService trainService;
-	
+
 	@Autowired
 	StationService stationService;
-	
+
 	@Autowired
 	RouteService routeService;
 
@@ -76,30 +76,39 @@ public class ScheduleController extends BaseController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<ResponseHandler> deleteSchedule(@PathVariable ObjectId id) {
-		trainService.delete(trainService.findById(id));
+		scheduleService.delete(scheduleService.findById(id));
 		return ok("Delete data success");
+	}
+
+	@RequestMapping(value = "/byCriteria", method = RequestMethod.GET)
+	public ResponseEntity<ResponseHandler> getScheduleByCriteria(
+			@RequestParam(value = "time", required = false) Long currentTime,
+			@RequestParam(value = "route", required = false) String routeCode,
+			@RequestParam(value = "station", required = false) String stationCode) {
+		List<Schedule> schedules = scheduleService.findScheduleByCriteria(currentTime, routeCode, stationCode);
+		return ok(schedules);
 	}
 
 	@RequestMapping(value = "/populateFromCsv", method = RequestMethod.POST)
 	public ResponseEntity<ResponseHandler> uploadFileCsv(@RequestParam("file") MultipartFile file,
 			@RequestParam(name = "routeCode", required = true) String routeCode) {
-		
+
 		try {
 			Reader reader = new InputStreamReader(file.getInputStream());
 			Objects.requireNonNull(reader, "reader cannot be null");
-			
+
 			List<String[]> rowList = new ArrayList<>();
 			List<Train> trainList = new ArrayList<>();
 			List<Station> stationList = new ArrayList<>();
 			List<Schedule> scheduleList = new ArrayList<>();
-			
+
 			rowList = CsvUtil.parsePerLine(reader);
 			Objects.requireNonNull(rowList, "csv file cannot be empty");
-			
+
 			// Route route = routeService.findByCode(rowList.get(2)[0]);
 			Route route = routeService.findByCode(routeCode);
 			Objects.requireNonNull(route, "route cannot be null");
-			
+
 			String[] trainRow = rowList.get(0);
 			for (int i = 1; i < trainRow.length; i++) {
 				String trainCode = trainRow[i];
@@ -120,9 +129,9 @@ public class ScheduleController extends BaseController {
 				String stationName = rowList.get(i)[0];
 				// if data exists, continue
 				Station existing = stationService.findByCode(stationName);
-				if (existing != null) { 
+				if (existing != null) {
 					stationList.add(existing);
-					continue; 
+					continue;
 				}
 				Station station = new Station();
 				station.setName(stationName);
@@ -135,7 +144,8 @@ public class ScheduleController extends BaseController {
 				String[] row = rowList.get(i);
 				int stationIndex = i - 2;
 				for (int j = 1; j < row.length; j++) {
-					if (StringUtils.isBlank(row[j])) continue; 
+					if (StringUtils.isBlank(row[j]))
+						continue;
 					int trainIndex = j - 1;
 					Schedule schedule = new Schedule();
 					schedule.setTime(CustomDateUtil.parseTimeToInt(row[j]));
@@ -143,7 +153,7 @@ public class ScheduleController extends BaseController {
 					schedule.setTrain(trainList.get(trainIndex));
 					schedule.setStation(stationList.get(stationIndex));
 					schedule.setRoute(route);
-					schedule.setSequence(j);
+					schedule.setSequence(stationIndex + 1);
 					scheduleList.add(schedule);
 				}
 			}

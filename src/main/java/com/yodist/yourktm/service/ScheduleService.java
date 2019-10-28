@@ -14,8 +14,10 @@ public interface ScheduleService {
 	
 	List<Schedule> findAll();
 	
-	public Schedule findById(ObjectId id);
+	Schedule findById(ObjectId id);
 	
-	public void delete(Schedule schedule);
+	void delete(Schedule schedule);
+	
+	List<Schedule> findScheduleByCriteria(Long currentTime, String routeCode, String stationCode);
 	
 }

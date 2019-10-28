@@ -6,8 +6,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import org.apache.commons.lang3.StringUtils;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -23,13 +25,14 @@ import com.yodist.yourktm.domain.Train;
 import com.yodist.yourktm.repository.ScheduleRepository;
 import com.yodist.yourktm.service.ScheduleService;
 import com.yodist.yourktm.util.CommonUtil;
+import com.yodist.yourktm.util.CustomDateUtil;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
 
 	@Autowired
 	private ScheduleRepository repository;
-	
+
 	@Autowired
 	private MongoTemplate mongoTemplate;
 
@@ -46,9 +49,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 		Query query = new Query();
 		Update update = new Update();
 		populateSchedule(schedule, update);
-		Criteria criteria = Criteria.where(Train.TRAIN).is(schedule.getTrain())
-				.and(Station.STATION).is(schedule.getTrain())
-				.and(Route.ROUTE).is(schedule.getRoute());
+		Criteria criteria = Criteria.where(Train.TRAIN).is(schedule.getTrain()).and(Station.STATION)
+				.is(schedule.getTrain()).and(Route.ROUTE).is(schedule.getRoute());
 		query.addCriteria(criteria);
 		UpdateResult result = mongoTemplate.upsert(query, update, Schedule.class);
 		if (schedule.getIdAsString() == null) {
@@ -64,9 +66,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 			Query query = new Query();
 			Update update = new Update();
 			populateSchedule(schedule, update);
-			Criteria criteria = Criteria.where(Train.TRAIN).is(schedule.getTrain())
-					.and(Station.STATION).is(schedule.getStation())
-					.and(Route.ROUTE).is(schedule.getRoute());
+			Criteria criteria = Criteria.where(Train.TRAIN).is(schedule.getTrain()).and(Station.STATION)
+					.is(schedule.getStation()).and(Route.ROUTE).is(schedule.getRoute());
 			query.addCriteria(criteria);
 			mongoTemplate.upsert(query, update, Schedule.class);
 		}
@@ -110,6 +111,21 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Override
 	public void delete(Schedule schedule) {
 		repository.delete(schedule);
+	}
+
+	@Override
+	public List<Schedule> findScheduleByCriteria(Long currentTime, String routeCode, String stationCode) {
+		long todayMinutes = CustomDateUtil.convertMsToTodayMinutes(currentTime);
+		Query query = new Query();
+		Criteria criteria = Criteria.where(Station.STATION + "." + Station.STATION_CODE).is(stationCode)
+				.and(Schedule.TIME).gt(todayMinutes);
+		if (StringUtils.isNotBlank(routeCode))
+			criteria = criteria.and(Route.ROUTE + "." + Route.ROUTE_CODE).is(routeCode);
+		query.addCriteria(criteria);
+		query.with(new Sort(Sort.Direction.ASC, Schedule.TIME));
+		query.isSorted();
+		query.limit(5);
+		return mongoTemplate.find(query, Schedule.class);
 	}
 
 }
