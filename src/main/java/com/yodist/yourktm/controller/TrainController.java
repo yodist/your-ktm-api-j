@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import com.yodist.yourktm.domain.Train;
 import com.yodist.yourktm.handler.ResponseHandler;
 import com.yodist.yourktm.repository.TrainRepository;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/train")
 public class TrainController extends BaseController {
